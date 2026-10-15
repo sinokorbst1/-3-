@@ -7,45 +7,26 @@
 <style>
 :root {
   color-scheme: light;
-  --plane:#f1f3f2; --surface:#fdfdfc; --surface-sunk:#f6f8f7;
-  --ink:#0d1211; --ink-2:#4d5856; --ink-muted:#7f8987;
-  --hair:rgba(13,18,17,0.11); --grid:#e3e6e2; --baseline:#c2c7c3;
-  /* 터미널 식별색 — 검증 완료(all-pairs, light/dark 양쪽 PASS) */
+  /* SKR 공통 스타일가이드 색 */
+  --bg:#f8fbff; --card:#ffffff; --line:#e3ebf5; --muted:#6f7d8c;
+  --brand:#2a6fdb; --brand-ink:#1a4f9f; --accent:#eef5ff;
+  --ok:#1a8a50; --warn:#b25e00; --danger:#c0392b;
+  /* 기존 변수 이름은 유지하고 값만 가이드 색으로 */
+  --plane:var(--bg); --surface:var(--card); --surface-sunk:#f5f9ff;
+  --ink:#22303e; --ink-2:#3f4d5c; --ink-muted:var(--muted);
+  --hair:var(--line); --grid:#edf2f8; --baseline:#cfdcec;
+  /* 터미널 식별색 — 데이터 구분용이라 그대로 둔다 */
   --t-bpt:#2a78d6; --t-gwct:#eb6834; --t-juct:#1baf7a;
-  --s1:#2a78d6;
+  --s1:var(--brand);
   --seg-etc:#cfd4d1; --seg-tre:#a9b0ad; --seg-out:#6d7a84;
-  --good:#0ca30c; --good-text:#006300; --warning:#fab219; --critical:#d03b3b;
-  --shadow:0 1px 2px rgba(13,18,17,.05), 0 8px 24px -16px rgba(13,18,17,.22);
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --good:#0ca30c; --good-text:var(--ok); --warning:#fab219; --critical:var(--danger);
+  --shadow:0 1px 3px rgba(30,70,130,0.05);
+  --sans:"Malgun Gothic",-apple-system,"Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"Cascadia Mono","Consolas","DejaVu Sans Mono",monospace;
-  /* 숫자용 — 고정폭보다 자획이 굵고 열려 있어 작은 크기에서 잘 읽힌다.
-     tabular-nums로 자릿수 폭을 맞추므로 표 정렬은 그대로 유지된다. */
-  --num:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,ui-sans-serif,sans-serif;
+  /* 숫자용 — tabular-nums로 자릿수 폭을 맞춘다 */
+  --num:"Malgun Gothic",-apple-system,"Segoe UI",system-ui,sans-serif;
 }
-@media (prefers-color-scheme:dark){
-  :root:where(:not([data-theme="light"])){
-    color-scheme:dark;
-    --plane:#0b0e0e; --surface:#171b1b; --surface-sunk:#121616;
-    --ink:#fff; --ink-2:#c1c5c0; --ink-muted:#898f8c;
-    --hair:rgba(255,255,255,.12); --grid:#282c2b; --baseline:#363a39;
-    --t-bpt:#3987e5; --t-gwct:#d95926; --t-juct:#199e70;
-    --s1:#3987e5;
-    --seg-etc:#4a504e; --seg-tre:#666d6a; --seg-out:#8b98a3;
-    --good-text:#0ca30c;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.8);
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --plane:#0b0e0e; --surface:#171b1b; --surface-sunk:#121616;
-  --ink:#fff; --ink-2:#c1c5c0; --ink-muted:#898f8c;
-  --hair:rgba(255,255,255,.12); --grid:#282c2b; --baseline:#363a39;
-  --t-bpt:#3987e5; --t-gwct:#d95926; --t-juct:#199e70;
-  --s1:#3987e5;
-  --seg-etc:#4a504e; --seg-tre:#666d6a; --seg-out:#8b98a3;
-  --good-text:#0ca30c;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.8);
-}
+/* 다크 모드는 스타일가이드에 없어 제거했다 */
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--plane);color:var(--ink);font-family:var(--sans);
@@ -354,7 +335,7 @@ footer{border-top:1px solid var(--hair);padding-top:14px;font-size:11.5px;color:
 @media print {
   @page { size: A4 landscape; margin: 11mm 10mm; }
 
-  :root, :root[data-theme="dark"], :root:where(:not([data-theme="light"])) {
+  :root {
     color-scheme: light;
     --plane:#fff; --surface:#fff; --surface-sunk:#f6f8f7;
     --ink:#0d1211; --ink-2:#3a4544; --ink-muted:#6b7573;
@@ -452,16 +433,135 @@ footer{border-top:1px solid var(--hair);padding-top:14px;font-size:11.5px;color:
 .prov{border-bottom:1px dotted var(--warning);cursor:help}
 .nextterm{margin-top:3px;font-family:var(--sans);font-size:11.5px;font-weight:500;
       color:var(--ink-muted);white-space:nowrap}
+/* ───────── SKR 공통 스타일 (겉모양만 변경, 기능·문구·위치는 그대로) ───────── */
+body{background:linear-gradient(180deg,#eef6ff 0,var(--bg) 320px) no-repeat,var(--bg);
+     color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+.wrap{max-width:1320px;padding:22px 20px 60px}
+
+/* 상단바 */
+.topbar{background:linear-gradient(100deg,#e4f0ff 0%,#d6e8fd 55%,#c7dffb 100%);color:var(--brand-ink);
+        border-bottom:1px solid #bcd5f3;box-shadow:0 2px 10px rgba(42,111,219,0.06);padding:10px 20px}
+.topbar-row1{width:100%;max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap}
+.topbar .spacer{flex:1}
+.topbar .brand{display:inline-flex;align-items:center;gap:14px;min-width:0}
+.topbar .brand-logo{height:72px;width:auto;display:block}
+.topbar h1{font-size:42px;font-weight:800;color:var(--brand-ink);letter-spacing:-.02em}
+.asof{color:var(--muted)}
+.asof .d{color:var(--brand-ink);font-weight:700}
+.printbtn{border:1px solid #cfe0f6;border-radius:999px;padding:6px 18px;background:#fff;
+          color:var(--brand-ink);font-size:13.5px;font-weight:700;
+          transition:background .15s,border-color .15s,color .15s}
+.printbtn:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.printbtn:focus-visible{outline:2px solid var(--brand)}
+
+/* 카드·상자 */
+.card{border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.card h2,h2{font-size:16px;font-weight:700;color:var(--ink)}
+.tab{border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.tab[aria-selected="true"]{box-shadow:0 2px 10px rgba(42,111,219,0.10)}
+.groupbar,.spec,.cum,.nodata{border-radius:12px;border-color:var(--line)}
+.spec{box-shadow:var(--shadow)}
+.nodata{border:1px dashed #c7d6ef;background:#fafcff}
+.tile{border-radius:10px;border:1px solid #d4e5fb;background:linear-gradient(135deg,#f1f7ff,#e6f1ff)}
+.tile .label{color:var(--muted)}
+.tile .value{font-weight:800;color:var(--brand-ink)}
+.cum .ci .v{font-weight:800;color:var(--brand-ink)}
+.cum .ci .v.neg{color:var(--danger)}
+.card-head.clickable{border-radius:8px}
+.card-head.clickable:hover{background:var(--accent)}
+.disc,.unittag{border-radius:7px;border-color:var(--line);background:#fff;color:var(--brand-ink)}
+.card-head.clickable:hover .disc{border-color:var(--brand);color:var(--brand)}
+
+/* 항목 선택 버튼 */
+.subtab{border:1px solid #cfe0f6;border-radius:10px;background:#fff;color:var(--muted)}
+.subtab:hover{color:var(--brand-ink);border-color:var(--brand);background:var(--accent)}
+.subtab[aria-selected="true"]{background:color-mix(in srgb,var(--t) 7%,#fff);box-shadow:var(--shadow)}
+
+/* 표 */
+table{font-size:13px}
+thead th{background:#f3f8ff;color:var(--muted);font-weight:700;letter-spacing:0;text-transform:none;
+         padding:7px 9px;border-bottom:2px solid var(--line)}
+tbody td{padding:7px 9px;border-bottom:1px solid var(--line)}
+tfoot td{padding:7px 9px;font-weight:800;background:#fbfdff;border-top:2px solid var(--line)}
+tbody tr:hover td{background:var(--accent)}
+.perf{font-size:13px}
+.perf thead th{background:#f3f8ff;color:var(--muted);font-weight:700;letter-spacing:0;
+               padding:7px 9px;border-bottom:2px solid var(--line)}
+.perf thead th:first-child{background:#f3f8ff;padding-left:9px}
+.perf tbody td{padding:7px 9px;border-bottom:1px solid var(--line)}
+.perf tbody td:first-child{padding-left:9px}
+.perf tbody tr:hover td,.perf tbody tr:hover td:first-child{background:var(--accent)}
+.perf tbody tr.rule td{border-top:1px solid var(--baseline)}
+tbody tr.subrow td{background:#edf4fe;color:var(--brand-ink);font-weight:800}
+.finhead{color:var(--muted);font-weight:700;letter-spacing:0;text-transform:none;border-bottom:2px solid var(--line)}
+.finrow{border-bottom:1px solid var(--line)}
+.dual{border-bottom:1px solid var(--line)}
+
+/* 배지·꼬리표 */
+.badge{border-radius:20px;border:0;background:var(--accent);color:var(--brand-ink);padding:3px 10px;font-weight:700}
+.badge .n{color:var(--brand-ink)}
+.chip{border-radius:20px;border-color:var(--line);background:#fff}
+.pill{border-color:var(--line);background:#fff}
+.needchk{border-radius:6px;border:1px solid #f1e4c9;background:#fdf8ee;color:#8a5a00}
+.prov{border-bottom-color:var(--warn)}
+.tip{border-radius:8px;border-color:var(--line);box-shadow:0 6px 20px rgba(30,70,130,0.15)}
+footer{border-top:1px solid var(--line)}
+
+/* 이사회 구성 — 가로로 길게 뜨던 목록을 숫자 상자 한 줄로 */
+.comp{display:grid;grid-template-columns:repeat(4,minmax(0,180px));gap:12px}
+.comp .divider{display:none}
+.comp-row{flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;
+          border:1px solid var(--line);border-radius:10px;background:#fff}
+.comp-row .lbl{flex:none;font-size:12.5px;color:var(--muted)}
+.comp-row .n{font-size:20px;font-weight:800;color:var(--ink)}
+@media screen and (max-width:620px){ .comp{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+@media screen and (max-width:900px){
+  .topbar h1{font-size:30px}
+  .topbar .brand-logo{height:52px}
+}
+@media screen and (max-width:520px){
+  .topbar h1{font-size:23px}
+  .topbar .brand-logo{height:40px}
+}
+
+/* 인쇄 — 상단바는 제목·기준일만 흰 바탕으로 남긴다(원래처럼 제목이 인쇄되도록) */
+@media print {
+  body{background:#fff}
+  .topbar{background:#fff;border:0;box-shadow:none;padding:0 0 5px}
+  .topbar-row1{max-width:none}
+  .topbar .brand-logo{height:36px}
+  .topbar h1{font-size:22px}
+  .card,.tab,.spec{box-shadow:none}
+  .card{border-radius:8px}
+  .tile{background:#f3f8ff}
+  thead th,.perf thead th,.perf thead th:first-child{padding:3px 5px}
+  tbody td,.perf tbody td{padding:3px 5px}
+  tfoot td{padding:3px 5px}
+  /* 위 화면용 규칙이 원래 인쇄 축소값을 덮지 않도록 다시 지정 */
+  .wrap{max-width:none;margin:0;padding:0}
+  table{font-size:11.5px}
+  thead th{font-size:10.5px}
+  .perf{font-size:10.5px}
+  .perf thead th{font-size:9.5px}
+  .perf tbody td:first-child{padding-left:5px}
+  h2,.card h2{font-size:13px}
+  .tile .value{font-size:18px}
+  .tile.hero .value{font-size:22px}
+  .comp-row{padding:5px 10px}
+  .comp-row .n{font-size:15px}
+}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-
-  <header class="masthead">
-    <div>
+<header class="topbar">
+  <div class="topbar-row1">
+    <div class="brand">
+      <img class="brand-logo" src="logo.png" alt="SKR" onerror="this.style.display='none'">
       <h1>장금상선 터미널 3사 현황</h1>
     </div>
+    <span class="spacer"></span>
     <div class="headright">
       <div class="asof">
         기준일 <span class="d" id="asof-d"></span>
@@ -473,7 +573,10 @@ footer{border-top:1px solid var(--hair);padding-top:14px;font-size:11.5px;color:
         <button type="button" class="printbtn" id="print-all">전체 인쇄</button>
       </div>
     </div>
-  </header>
+  </div>
+</header>
+
+<div class="wrap">
 
   <div class="tabs" role="tablist" aria-label="법인 선택"></div>
 
@@ -489,8 +592,8 @@ footer{border-top:1px solid var(--hair);padding-top:14px;font-size:11.5px;color:
    ═══════════════════════════════════════════════════════════════ */
 /* 기준일 — 자료를 갱신한 날로 맞춘다. 임기 D-day 배지가 모두 이 날짜를 기준으로 계산된다.
    → 2026-09-09부터: 데이터를 조금이라도 갱신할 때마다 그날 날짜로 자동으로 맞추기로 함(사용자 지시).
-   갱신 이력: 2026-08-20 최초 → 2026-08-25 (GWCT 연임 결의 반영) → 2026-09-09 (GWCT 8월 실적 반영 · BPT 감사 교체 반영) → 2026-09-15 (BPT 8월 실적 반영) → 2026-10-07 (BPT 제3차 임시주총 이사 중임 반영) → 2026-10-13 (GWCT 9월 실적 반영) */
-const TODAY = '2026-10-13';
+   갱신 이력: 2026-08-20 최초 → 2026-08-25 (GWCT 연임 결의 반영) → 2026-09-09 (GWCT 8월 실적 반영 · BPT 감사 교체 반영) → 2026-09-15 (BPT 8월 실적 반영) → 2026-10-07 (BPT 제3차 임시주총 이사 중임 반영) → 2026-10-13 (GWCT 9월 실적 반영) → 2026-10-14 (BPT 9월 실적 반영) → 2026-10-15 (JUCT 8·9월 실적 반영) */
+const TODAY = '2026-10-15';
 
 const GROUP = { fyEnd: '2025-12-31' };
 
@@ -503,35 +606,35 @@ const COMPANIES = [
           biz: 'H5292 수상운송지원서비스업', staff: 813, listed: false,
           bizAll: ['H5292 수상운송지원서비스업 — 항만하역 외 장비정비', 'L6821 부동산관리업 — 임대수익'] },
     monthly: {
-      label: '2026년 1~8월', cols: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월'],
-      vol:   [346544, 322367, 344972, 369335, 377016, 371765, 378373, 347689],
-      rev:   [20831, 18325, 19499, 20535, 20766, 20844, 21307, 19900],
-      cogs:  [18269, 18120, 18138, 19393, 18590, 19045, 18762, 19006],
-      gross: [2562, 205, 1361, 1143, 2176, 1800, 2545, 894],
-      sga:   [810, 635, 664, 734, 637, 678, 682, 684],
-      op:    [1751, -430, 697, 409, 1539, 1121, 1863, 210],
-      nonop: [-15, 34, 67, 145, 8, 63, -4, -284],
-      ord:   [1736, -396, 763, 553, 1547, 1185, 1859, -75],
-      total: { vol: 2858061, rev: 162007, cogs: 149322, gross: 12685, sga: 5525, op: 7160, nonop: 13, ord: 7173 },
-      src: 'BPT 경영실적 보고(26.09.15) · 26년 8월 누계 시트'
+      label: '2026년 1~9월', cols: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월'],
+      vol:   [346544, 322367, 344972, 369335, 377016, 371765, 378373, 347689, 357929],
+      rev:   [20831, 18325, 19499, 20535, 20766, 20844, 21307, 19900, 20772],
+      cogs:  [18269, 18120, 18138, 19393, 18590, 19045, 18762, 19006, 19327],
+      gross: [2562, 205, 1361, 1143, 2176, 1800, 2545, 894, 1445],
+      sga:   [810, 635, 664, 734, 637, 678, 682, 684, 738],
+      op:    [1751, -430, 697, 409, 1539, 1121, 1863, 210, 707],
+      nonop: [-15, 34, 67, 145, 8, 63, -4, -284, 65],
+      ord:   [1736, -396, 763, 553, 1547, 1185, 1859, -75, 772],
+      total: { vol: 3215990, rev: 182780, cogs: 168650, gross: 14130, sga: 6264, op: 7867, nonop: 79, ord: 7945 },
+      src: 'BPT 경영실적 보고(26.10.14) · 26년 9월 누계 시트'
     },
     perf: {
       cols: ['16.11.15~12.31', '17.01.01~12.31', '18.01.01~12.31', '19.01.01~12.31',
              '20.01.01~12.31', '21.01.01~12.31', '22.01.01~12.31', '23.01.01~12.31',
-             '24.01.01~12.31', '25.01.01~12.31', '26.01.01~08.31'],
-      vol:   [450585, 3554540, 3758233, 3765984, 3759210, 3809888, 3704778, 3877747, 4305526, 4266047, 2858061],
-      rev:   [23450, 176185, 180843, 186048, 187944, 205695, 222269, 227313, 244813, 241380, 162007],
-      cogs:  [23608, 162266, 170987, 173558, 175848, 188781, 202395, 203851, 216909, 217452, 149322],
-      gross: [-158, 13919, 9857, 12490, 12095, 16914, 19875, 23462, 27904, 23928, 12685],
-      sga:   [1017, 4618, 5790, 6076, 5883, 6176, 6473, 7008, 7821, 8654, 5525],
-      op:    [-1175, 9301, 4066, 6413, 6213, 10739, 13401, 16454, 20084, 15274, 7160],
-      nonop: [-730, -4483, -1728, -1652, -1460, -374, 470, 1330, 3017, 2776, 13],
-      ord:   [-1905, 4818, 2338, 4762, 4753, 10364, 13871, 17784, 23101, 18050, 7173],
-      tax:   [0, 547, 590, 485, 79, -8046, 2334, 869, 587, 1874, 145],
-      net:   [-1905, 4271, 1748, 4277, 4674, 18411, 11537, 16915, 22514, 16176, 7028],
-      span: '2016-11-15 ~ 2026-08-31',
-      total: { vol: 38110599, rev: 2057947, cogs: 1884977, gross: 172971, sga: 65041,
-               op: 107930, nonop: -2821, ord: 105109, tax: -536, net: 105646 }
+             '24.01.01~12.31', '25.01.01~12.31', '26.01.01~09.30'],
+      vol:   [450585, 3554540, 3758233, 3765984, 3759210, 3809888, 3704778, 3877747, 4305526, 4266047, 3215990],
+      rev:   [23450, 176185, 180843, 186048, 187944, 205695, 222269, 227313, 244813, 241380, 182780],
+      cogs:  [23608, 162266, 170987, 173558, 175848, 188781, 202395, 203851, 216909, 217452, 168650],
+      gross: [-158, 13919, 9857, 12490, 12095, 16914, 19875, 23462, 27904, 23928, 14130],
+      sga:   [1017, 4618, 5790, 6076, 5883, 6176, 6473, 7008, 7821, 8654, 6264],
+      op:    [-1175, 9301, 4066, 6413, 6213, 10739, 13401, 16454, 20084, 15274, 7867],
+      nonop: [-730, -4483, -1728, -1652, -1460, -374, 470, 1330, 3017, 2776, 79],
+      ord:   [-1905, 4818, 2338, 4762, 4753, 10364, 13871, 17784, 23101, 18050, 7945],
+      tax:   [0, 547, 590, 485, 79, -8046, 2334, 869, 587, 1874, 159],
+      net:   [-1905, 4271, 1748, 4277, 4674, 18411, 11537, 16915, 22514, 16176, 7786],
+      span: '2016-11-15 ~ 2026-09-30',
+      total: { vol: 38468528, rev: 2078720, cogs: 1904305, gross: 174416, sga: 65780,
+               op: 108637, nonop: -2755, ord: 105881, tax: -522, net: 106404 }
     },
     capital: {
       rows: [
@@ -733,33 +836,33 @@ const COMPANIES = [
       note: '계열사 대여금 없음 · 담보: 울주군 온산읍 산암리 토지 3필지 및 건물(CFS창고·사무실)'
     },
     monthly: {
-      label: '2026년 1~7월', cols: ['1월', '2월', '3월', '4월', '5월', '6월', '7월'],
-      vol:   [8300, 6353, 8738, 7767, 7032, 5684, 6351],
-      rev:   [507, 403, 536, 482, 439, 358, 417],
-      cogs:  [365, 361, 383, 385, 375, 351, 415],
-      gross: [143, 43, 153, 97, 65, 7, 2],
-      sga:   [136, 131, 132, 134, 122, 127, 149],
-      op:    [7, -88, 21, -37, -58, -121, -147],
-      nonop: [-49, -43, 66, -37, -45, -46, -49],
-      ord:   [-43, -132, 87, -74, -103, -167, -196],
-      total: { vol: 50225, rev: 3143, cogs: 2634, gross: 509, sga: 932, op: -423, nonop: -204, ord: -627 },
+      label: '2026년 1~9월', cols: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월'],
+      vol:   [8300, 6353, 8738, 7767, 7032, 5684, 6351, 7479, 8613],
+      rev:   [507, 403, 536, 482, 439, 358, 417, 449, 496],
+      cogs:  [365, 361, 383, 385, 375, 351, 415, 368, 396],
+      gross: [143, 43, 153, 97, 65, 7, 2, 81, 100],
+      sga:   [136, 131, 132, 134, 122, 127, 149, 129, 137],
+      op:    [7, -88, 21, -37, -58, -121, -147, -48, -37],
+      nonop: [-49, -43, 66, -37, -45, -46, -49, -51, -45],
+      ord:   [-43, -132, 87, -74, -103, -167, -196, -99, -83],
+      total: { vol: 66317, rev: 4087, cogs: 3398, gross: 689, sga: 1198, op: -509, nonop: -300, ord: -809 },
       src: 'JUCT 경영실적 보고 2026 · 26년 시트'
     },
     perf: {
-      cols: ['23.03.01~12.31', '24.01.01~12.31', '25.01.01~12.31', '26.01.01~07.31'],
-      vol:   [92777, 76794, 101380, 50225],
-      rev:   [5661, 4715, 6232, 3143],
-      cogs:  [4013, 4081, 4694, 2634],
-      gross: [1648, 634, 1538, 509],
-      sga:   [1681, 1991, 1646, 932],
-      op:    [-33, -1357, -108, -423],
-      nonop: [-563, -365, -578, -204],
-      ord:   [-596, -1722, -686, -627],
+      cols: ['23.03.01~12.31', '24.01.01~12.31', '25.01.01~12.31', '26.01.01~09.30'],
+      vol:   [92777, 76794, 101380, 66317],
+      rev:   [5661, 4715, 6232, 4087],
+      cogs:  [4013, 4081, 4694, 3398],
+      gross: [1648, 634, 1538, 689],
+      sga:   [1681, 1991, 1646, 1198],
+      op:    [-33, -1357, -108, -509],
+      nonop: [-563, -365, -578, -300],
+      ord:   [-596, -1722, -686, -809],
       tax:   [null, -40, -91, null],
-      net:   [-596, -1682, -595, -627],
-      span: '2023-03-01 ~ 2026-07-31',
-      total: { vol: 321176, rev: 19751, cogs: 15422, gross: 4329, sga: 6250,
-               op: -1921, nonop: -1710, ord: -3631, tax: -131, net: -3500 }
+      net:   [-596, -1682, -595, -809],
+      span: '2023-03-01 ~ 2026-09-30',
+      total: { vol: 337268, rev: 20695, cogs: 16186, gross: 4509, sga: 6516,
+               op: -2007, nonop: -1806, ord: -3813, tax: -131, net: -3682 }
     },
     shares: { total: 1328440, par: 10000 },
     cap: [
